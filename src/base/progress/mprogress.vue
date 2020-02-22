@@ -1,17 +1,14 @@
 <template>
-    <div class="progress" ref="progress" @click="barClick"> 
-        <div class="progress-bar"></div>
-        <div class="progress-outer" ref="progressOuter"></div>
-        <div class="progress-inner" ref="progressInner">
-            <div 
-                class="progress-dot"
-                @mousedown="barDown"
-                @touchstart.prevent="barDown"></div>
+    <div class="progress" ref="progress" @click="changeProgress"> 
+        <div class="progress_bar" ref="progress_bar">
+            <div class="progressLoad" ref="progressLoad"></div>
+            <div class="buffered" ref="buffered"></div>
+            <i ref="i" @click="barClick" @mousedown="barDown" @mouseup="handleUp"></i>
         </div>
     </div>
 </template>
 <script>
-const dotWidth = 10;
+import {mapState} from 'vuex';
 export default {
     // name: 'mprogress',
     props: {
@@ -35,109 +32,108 @@ export default {
             }
         }
     },
-    watch: {
-        percent(newPercent){
-            if (newPercent >= 0 && !this.move.status) {
-                const barWidth = this.$refs.progress.clientWidth - dotWidth;
-                const offsetWidth = newPercent * barWidth;
-                this.moveSilde(offsetWidth);
-            }
-        },
-        percentProgress(newValue){
-            let offsetWidth =  this.$refs.progress.clientWidth * newValue;
-            console.log(offsetWidth);
-            this.$refs.progressOuter.style.width = `${offsetWidth}px`;
-        }
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.bindEvents();
-            const barWidth = this.$refs.progress.clientWidth - dotWidth;
-            const offsetWidth = this.percent * barWidth;
-            this.moveSilde(offsetWidth);
-        })
-    },
-    beforeDestroy() {
-        this.unbindEvents();
+    computed: {
+        ...mapState(['audioEle', 'playing'])
     },
     methods: {
         /**
-         * 添加绑定事件
+         * 点击i标签阻止事件冒泡
          */
-        bindEvents(){
+        barClick (e){
+            e.stopPropagation();
+        },
+        /**
+         * i标签鼠标按下事件
+         */
+        barDown (){
+            if (!this.audioEle.src) {
+                console.log('没有播放音乐')
+                return;
+            }
+            // console.log(this.playing);
+            this.audioEle.pause();
             document.addEventListener('mousemove', this.barMove);
             document.addEventListener('mouseup', this.barUp);
-
-            document.addEventListener('touchmove', this.barMove);
-            document.addEventListener('touchend', this.barUp);
         },
         /**
-         * 移除绑定事件
+         * document鼠标抬起事件
          */
-        unbindEvents(){
+        barUp (){
             document.removeEventListener('mousemove', this.barMove);
-            document.removeEventListener('mouseup', this.barUp);
-
-            document.removeEventListener('touchmove', this.barMove);
-            document.removeEventListener('touchend', this.barUp);
+            var offsetWidth = this.$refs.progressLoad.offsetWidth;
+            var total = offsetWidth / this.$refs.progress_bar.clientWidth * this.audioEle.duration;
+            this.setAudioPlayTime(total);
+            this.audioEle.play(); 
         },
         /**
-         * 点击事件
-         */
-        barClick(e){
-            // console.log(e);
-            let rect = this.$refs.progress.getBoundingClientRect();
-            let offsetWidth = Math.min(
-                this.$refs.progress.clientWidth - dotWidth,
-                Math.max(0, e.clientX - rect.left)
-            );
-            this.moveSilde(offsetWidth);
-            this.commitPercent();
-        },
-        /**
-         * 鼠标按下事件
-         */
-        barDown(e){
-            this.move.status = true;
-            this.move.startX = e.clientX || e.touches[0].pageX;
-            this.move.left = this.$refs.progressInner.clientWidth;
-        },
-        /**
-         * 鼠标/触摸移动事件
+         * 鼠标移动事件
          */
         barMove(e){
-            if (!this.move.status) {
-                return false;
-            }
-            e.preventDefault();
-            let endX = e.clientX || e.touches[0].pageX;
-            let dist = endX - this.move.startX;
-            let offsetWidth = Math.min(
-                this.$refs.progress.clientWidth - dotWidth,
-                Math.max(0, this.move.left + dist)
-            )
-            this.moveSlide(offsetWidth);
-            this.commitPercent();
-        },
-        /**
-         * 鼠标/触摸释放事件
-         */
-        barUp(e){
-            this.move.status = false;
+            let offset = e.clientX - this.$refs.progress.offsetLeft - 180 - 25;
+            offset < 0 ? offset = 0 : offset;
+            offset > this.$refs.progress.clientWidth ? offset = this.$refs.progress.clientWidth : offset;
+            this.moveSlide(offset);
         },
         /**
          * 移动滑块
          */
-        moveSilde(offsetWidth){
-            this.$refs.progressInner.style.width = `${offsetWidth}px`;
+        moveSlide (offset){
+            this.$refs.i.style.left = offset + "px";
+            this.$refs.progressLoad.style.width = offset + "px";
         },
         /**
-         * 修改percent
+         * 点击progress跳转进度
          */
-        commitPercent(){
-            let lineWidth = this.$refs.progress.clientWidth - dotWidth;
+        changeProgress(e){
+            if (!this.audioEle.src) {
+                console.log('没有播放音乐')
+                return;
+            }
+            let offset = e.clientX - this.$refs.progress.offsetLeft - 180 - 25;
+            this.moveSlide(offset);
+            var offsetWidth = this.$refs.progressLoad.offsetWidth;
+            var total = offsetWidth / this.$refs.progress_bar.clientWidth * this.audioEle.duration;
+            this.setAudioPlayTime(total);
+        },
+        /**
+         * 修改audio的播放时间
+         * 
+         */
+        setAudioPlayTime(time){
+            this.audioEle.currentTime = time;
+        },
+        /**
+         * i标签鼠标抬起
+         */
+        handleUp(){
+            console.log('i is mouseUp' );
         }
     },
+    mounted (){
+        let self = this;
+        this.audioEle.addEventListener('progress', function(){
+            function getBuffered () {
+                let loaded;
+                if (self.audioEle.buffered.length) {
+                    loaded = 100 * self.audioEle.buffered.end(0) / self.audioEle.duration;
+                    // console.log(loaded);
+                    self.$refs.buffered.style.width = loaded + "%";
+                }
+                if (loaded == 100) {
+                    return;
+                }
+                setTimeout(getBuffered, 100) 
+            }
+            getBuffered();
+        })
+        this.audioEle.addEventListener('timeupdate', function(){
+            // console.log(self.$refs.progress.clientWidth);
+            var total = self.audioEle.duration;
+            var nowTime = self.audioEle.currentTime;
+            var width = nowTime / total * self.$refs.progress.clientWidth;
+            self.moveSlide(width);
+        })
+    }
 }
 </script>
 <style lang="less">
@@ -148,40 +144,39 @@ export default {
         cursor: pointer;
         // width: 100%;
         overflow: hidden;
-        .progress-bar {
+        .progress_bar {
+            position: absolute;
+            left: 0;
             height: 2px;
             width: 100%;
             background: hsla(0,0%,100%,.15);
-        }
-        .progress-outer {
-            position: absolute;
-            top: 50%;
-            left: 5px;
-            display: inline-block;
-            width: 0;
-            height: 2px;
-            margin-top: -1px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .progress-inner {
-            position: absolute;
-            top: 50%;
-            left: 5px;
-            display: inline-block;
-            width: 0;
-            height: 2px;
-            margin-top: -1px;
-            background: #fff;
-            .progress-dot {
+            div.progressLoad {
                 position: absolute;
-                top: 50%;
-                right: -5px;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
+                width: 0px;
+                height: 2px;
+                background-color: orange;
+                left: 0;
+                top: 0;
+                z-index: 20;
+            }
+            i {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border-radius: 3px;
                 background-color: #fff;
-                transform: translateY(-50%);
+                left: 0px;
+                top: -2px;
+            }
+            .buffered{
+                position: absolute;
+                width: 0px;
+                height: 2px;
+                background-color: #0f0;
+                left: 0;
+                top: 0;
             }
         }
+        
     }
 </style>

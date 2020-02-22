@@ -73,10 +73,10 @@ export default {
                 if (res.status == 200) {
                     if (!res.data.result.songs) {
                         console.log('没有更多歌曲了')
-                        return;
+                        return null;
                     }
                     this.list = [...this.list, ...formatSongs(res.data.result.songs)];
-                    console.log(this.list);
+                    // console.log(this.list);
                 }
             }, err => { console.log('seach' + err) })
         },

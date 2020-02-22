@@ -2,17 +2,12 @@
   <div class="music">
     <div class="music-content">
       <MusicLeft></MusicLeft>
-      <!-- <MusicRight
-        :currentMusic="{
-          currentMusic: JSON.stringify(currentMusic) == '{}' ? false : currentMusic
-        }"
-      ></MusicRight> -->
       <lyric class="music-right" :lyric="lyric" :noLyric="noLyric" :lyric-index="lyricIndex"></lyric>
     </div>
     <!-- <MusicBar></MusicBar> -->
     <!-- 播放器 -->
-    <div class="music-bar" :class="{disable: !musicReady || currentMusic.id}">
-      <div class="music-bar-btns">
+    <div class="music-bar" :class="{disable: !musicReady || currentMusic.id}" ref="musicBar">
+      <div class="music-bar-btns" ref="musicBarBtn">
         <icon class="pointer"
         type="prev"
         :size="36"
@@ -39,8 +34,8 @@
           </template>
         </div>
         <div
-        v-if="currentMusic.id"
-        class="music-bar-time"
+          v-if="currentMusic.id"
+          class="music-bar-time"
         >{{currentTime | format}}/{{currentMusic.duration % 3600 | format}}</div>
         <MProgress class="music-progress"
         :percent="percentMusic"
@@ -62,7 +57,7 @@
         v-on:click="openComment"></icon>
       <!-- 音量控制 -->
       <div class="music-bar-volume" title="音量加减 [Ctrl + Up / Down]">
-        <volume :volume="volume" v-on:volumeChange="volumeChange"></volume>
+        <!-- <volume :volume="volume" v-on:volumeChange="volumeChange"></volume> -->
       </div>
     </div>
     <div class="play-bg" ref="playBg" :style="{ 'backgroundImage': 'url(' + playBg+')' }"></div>
@@ -106,24 +101,11 @@ export default {
             isMute: false,//是否静音
             volume,//音量大小
             picUrl: `${defaultBG}`,
-            // currentMusic: {
-            //     currentMusic: true,
-            //     musicImg: 'http://p1.music.126.net/DK1_4sP_339o5rowMdPXdw==/109951164071024476.jpg?param=300y300',
-            //     songName: '世间美好与你环环相扣',
-            //     singer: '柏松',
-            //     album: '听闻余生'
-            // },
             playBg: 'http://cdn.mtnhao.com/music/bg.jpg'
         }
 
     },
     computed: {
-        // picUrl(){
-        //   // console.log(this.currentMusic)
-        //     return this.currentMusic.id && this.currentMusic.image
-        //     ? `${this.currentMusic.image}?param=300y300`
-        //     : `${defaultBG}`;
-        // },
         percentMusic(){
             const duration = this.currentMusic.duration
             return this.currentTime && duration ? this.currentTime / duration : 0;
@@ -402,11 +384,13 @@ export default {
         this.initKeyDown();
         this.volumeChange(this.volume);
       })      
+      console.log(this.$refs.musicBar, this.$refs.musicBarBtn)
     },
     updated() {
-        console.log(this.currentMusic.id );
+        // console.log(this.currentMusic.id );
       
     },
+    
 }
 </script>
 <style lang="less">
@@ -440,7 +424,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50%;
-    transfrom: translateZ(0);
+    transform: translateZ(0);
     transition: all 0.8s;
   }
   .play-mask {

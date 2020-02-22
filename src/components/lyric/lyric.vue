@@ -78,7 +78,7 @@ export default {
         this.$nextTick(() => this.clacTop());
     },
     updated() {
-        console.log(this.currentMusic.image);
+        // console.log(this.currentMusic.image);
     },
     methods: {
         clacTop(){

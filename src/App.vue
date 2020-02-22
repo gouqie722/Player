@@ -53,6 +53,8 @@ export default {
       // console.log(this.$store.state.audioEle);
 
     })
+    
+    window.audio = this.$refs.Player;
   },
   watch: {
     

@@ -60,6 +60,13 @@ var api = {
                 ids
             }
         })
+    },
+    getSearchHot(){
+        return axios.get('/api/meituan/header/searchHotWords.json', {
+            params: {
+                appkey: 'yinshan_1559989301908'
+            }
+        })
     }
 }
 

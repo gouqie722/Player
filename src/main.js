@@ -19,7 +19,6 @@ var vm = new Vue({
   render: h => h(App),
 }).$mount('#app');
 // console.log(vm);
-
 // var id = 1363948882;
 // `http://api.mtnhao.com/lyric?id=${id}`
 // `http://music.163.com/song/media/outer/url?id=${id}.mp3`

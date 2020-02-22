@@ -52,7 +52,7 @@ export default {
             this.isMute = !this.isMute;
         },
         handleVolumeChange(){
-            this.$emit('volumeChange', percent)
+            this.$emit('volumeChange', this.percent)
         }
     },
 }

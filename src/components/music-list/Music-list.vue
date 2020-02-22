@@ -133,7 +133,7 @@ export default {
         })
     },
     mounted() {
-        console.log(this.height);
+        // console.log(this.height);
     },
 }
 </script>
@@ -240,39 +240,4 @@ export default {
                 }
             }
         }
-    @media (max-width: 1440px){
-        .musicList{
-            .list-content{
-                .list-item{
-                    .list-album{
-                        width: 200px;
-                    }
-                    
-                }
-            }
-            .list-item.list-header{
-                    .list-singer{
-                        width: 200px;
-                    }
-                }
-        }           
-    }
-    @media (max-width: 1200px){
-        .musicList{
-            .list-content{
-                .list-item{
-                    .list-singer{
-                        width: 150px;
-                    }
-                    
-                }
-            }       
-            .list-item.list-header{
-                .list-album{
-                        width: 150px;
-                    }
-            }    
-        }
-
-    }
 </style>
