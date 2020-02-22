@@ -28,8 +28,9 @@ export default {
         },
         // 删除事件
         deleteItem(index){
+            console.log(this.playlist);
             let list = [...this.playlist];
-            list.slice(index, 1);
+            list.splice(index, 1);
             this.removePlayListItem({list, index});
         },
         ...mapMutations({

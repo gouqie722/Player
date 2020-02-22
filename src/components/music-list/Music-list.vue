@@ -118,7 +118,7 @@ export default {
             this.$emit('select', item, index);
         },
         delectItem(index){
-            this.$emit('del', index)
+            this.$emit('del', index);
         },
         getPlayIconType({id: itemId}){
             // console.log(this.currentMusic);

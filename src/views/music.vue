@@ -1,7 +1,13 @@
 <template>
   <div class="music">
     <div class="music-content">
-      <MusicLeft></MusicLeft>
+      <div class="music-left">
+        <MusicBtn></MusicBtn>
+        <keep-alive>
+            <router-view class="music-list" v-if="$route.meta.keepAlive" v-on:del="del"></router-view>    
+        </keep-alive>
+            <router-view class="music-list" v-if="!$route.meta.keepAlive" v-on:del="del"></router-view>
+      </div>
       <lyric class="music-right" :lyric="lyric" :noLyric="noLyric" :lyric-index="lyricIndex"></lyric>
     </div>
     <!-- <MusicBar></MusicBar> -->
@@ -70,21 +76,21 @@ import { randomSortArray, parseLyric, format } from '../utils/util.js';
 import { playMode, defaultBG } from '../config.js';
 import { getVolume, setVolume } from '../utils/storage.js';
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import MusicLeft from '../components/musicContent/MusicLeft.vue';
 import MusicRight from '../components/musicContent/MusicRight.vue';
 import Lyric from '../components/lyric/lyric.vue';
 import MusicBar from '../components/musicBar/MusicBar.vue';
 import MProgress from '../base/progress/mprogress.vue';
 import volume from '../components/volume/volume.vue';
+import MusicBtn from '../components/music-btn/Music-btn.vue';
 import PlayMusic from './Player.js';
 export default {
     components: {
-        MusicLeft,
         MusicRight,
         MusicBar,
         Lyric,
         MProgress,
-        volume
+        volume,
+        MusicBtn
     },
     filters: {
       format
@@ -371,11 +377,18 @@ export default {
           console.log(err);
         })
       },
+      /**
+       * 删除歌曲
+       */
+      del(index){
+        console.log(index);
+      },
       ...mapMutations({
         setPlaying: 'SET_PLAYING',
         setPlaylist: 'SET_PLAYLIST',
         setCurrentIndex: 'SET_CURRENTINDEX'
       }),
+
       ...mapActions(['setHistory', 'setPlayMode'])
     },
     mounted() {
@@ -435,4 +448,13 @@ export default {
     margin-left: 20px;
   }
 }
+.music-left{
+        flex: 1;
+        height: 100%;
+        overflow: hidden;
+        .music-list{
+            width: 100%;
+            height: calc(100% - 60px);
+        }
+    }
 </style>
