@@ -119,7 +119,7 @@ export default {
     },
     mounted() {
         api.getMusicComment(this.$route.params.id, this.page).then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.status == 200) {
                 this.hotComments = res.data.hotComments;
                 this.commentList = res.data.comments;

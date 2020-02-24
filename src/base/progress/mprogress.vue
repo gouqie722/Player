@@ -100,7 +100,7 @@ export default {
          * 
          */
         setAudioPlayTime(time){
-            this.audioEle.currentTime = time;
+            this.audioEle.currentTime = time.toFixed(3);
         },
         /**
          * i标签鼠标抬起

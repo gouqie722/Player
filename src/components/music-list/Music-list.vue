@@ -81,17 +81,33 @@ export default {
         Height: {
             type: Number,
             default: 0
+        },
+        scrollTo: {
+            type: Boolean,
+            default: false
         }
     },
     watch: {
         list(newValue){
             if (newValue) {
-                this.ops.bar.disable = false;
+                // this.ops.bar.disable = false;
+                this.ops.bar.keepShow = true;
+
             }
         },
         lockUp(newValue){
             if (!newValue) {
-                this.ops.bar.disable = false;
+                // this.ops.bar.disable = false;
+                this.ops.bar.keepShow = true;
+            }
+        },
+        scrollTo(newValue){
+            if (newValue) {
+                this.$refs['vs'].scrollTo(
+                    {
+                        y: 0
+                    },
+                )
             }
         }
     },
@@ -101,7 +117,8 @@ export default {
          */
         handleScroll(vertical, horizontal, nativeEvent){
             if (this.lockUp && vertical.process > 0.95) {
-                this.ops.bar.disable = true;
+                // this.ops.bar.disable = true;
+                this.ops.bar.keepShow = false;
                 this.$emit('pullUpLoad');
                 console.log(vertical.scrollTop);
                 // vertical.process = 0.5;

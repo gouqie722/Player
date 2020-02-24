@@ -12,6 +12,7 @@
             v-on:select="selectItem"
             :Height="60"
             :lockUp="lockUp"
+            :scrollTo="scrollTo"
             @pullUpLoad="pullUpLoad"></MusicList>
     </div>
 </template>
@@ -30,7 +31,8 @@ export default {
             searchValue: '',//热搜关键词
             list: [],//搜索数组
             page: 0,//分页
-            Artists: []//热搜数组
+            Artists: [],//热搜数组
+            scrollTo: false
         }
     },
     watch: {
@@ -58,6 +60,9 @@ export default {
                 return;
             }
             this.page = 0;
+            if (this.list.length > 0) {
+                this.scrollTo = true;
+            }
             api.search(this.searchValue, this.page).then(res => {
                 if (res.data.code === 200) {
                     this.list = formatSongs(res.data.result.songs);

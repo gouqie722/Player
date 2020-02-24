@@ -72,7 +72,6 @@ export default {
                         return item;
                     }
                 })
-                console.log(list);
                 return list;
             }
         }, (err) => {console.log('toplist' + err)})

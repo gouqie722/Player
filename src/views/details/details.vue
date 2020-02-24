@@ -29,7 +29,7 @@ export default {
     },
     mounted() {
         // 获取歌单详情
-        console.log(this.$route.params);
+        // console.log(this.$route.params);
         api.getPlaylistDetail(this.id).then((res) => {
             if (res.data.code === 200) {
                 this.list = formatTopSongs(res.data.playlist.tracks)
