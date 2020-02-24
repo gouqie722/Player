@@ -46,7 +46,8 @@
         <MProgress class="music-progress"
         :percent="percentMusic"
         :percent-progress="currentProgress"
-        v-on:progressChange="progressMusic"></MProgress>
+        v-on:progressChange="progressMusic"
+        v-on:next="next"></MProgress>
       </div>
       <!-- 播放模式 -->
       <icon

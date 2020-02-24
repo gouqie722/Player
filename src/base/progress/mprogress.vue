@@ -62,6 +62,12 @@ export default {
             document.removeEventListener('mousemove', this.barMove);
             var offsetWidth = this.$refs.progressLoad.offsetWidth;
             var total = offsetWidth / this.$refs.progress_bar.clientWidth * this.audioEle.duration;
+            // console.log(Math.floor(total) === Math.floor(this.audioEle.duration));
+            // console.log(total === this.audioEle.duration);
+            if (Math.floor(total) === Math.floor(this.audioEle.duration) ){//当拖拽后的播放时长和音乐的时长相等时自动播放下一首
+                this.$emit('next');
+                return;
+            }
             this.setAudioPlayTime(total);
             this.audioEle.play(); 
         },
