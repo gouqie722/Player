@@ -12,7 +12,7 @@ Vue.use(vuescroll);
 // Vue.use(Icon);
 Vue.component('icon', Icon);
 Vue.component('vue-scroll', vuescroll);
-
+//删除node_modules文件的命令    rimraf node_modules
 var vm = new Vue({
   router,
   store,

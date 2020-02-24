@@ -44,6 +44,7 @@ export default {
   vertical-align: baseline;
   text-transform: none;
   speak: none;
+  cursor: pointer;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

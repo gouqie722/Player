@@ -168,14 +168,7 @@ export default {
                 left: 0px;
                 top: -2px;
             }
-            .buffered{
-                position: absolute;
-                width: 0px;
-                height: 2px;
-                background-color: #0f0;
-                left: 0;
-                top: 0;
-            }
+            
         }
         
     }

@@ -8,7 +8,7 @@
         </keep-alive>
             <router-view class="music-list" v-if="!$route.meta.keepAlive" v-on:del="del"></router-view>
       </div>
-      <lyric class="music-right" :lyric="lyric" :noLyric="noLyric" :lyric-index="lyricIndex"></lyric>
+      <lyric class="music-right" :lyric="lyric" :noLyric="noLyric" :lyric-index="lyricIndex" :picUrl="picUrl"></lyric>
     </div>
     <!-- <MusicBar></MusicBar> -->
     <!-- 播放器 -->
@@ -63,7 +63,7 @@
         v-on:click="openComment"></icon>
       <!-- 音量控制 -->
       <div class="music-bar-volume" title="音量加减 [Ctrl + Up / Down]">
-        <!-- <volume :volume="volume" v-on:volumeChange="volumeChange"></volume> -->
+        <volume :volume="volume" v-on:volumeChange="volumeChange"></volume>
       </div>
     </div>
     <div class="play-bg" ref="playBg" :style="{ 'backgroundImage': 'url(' + playBg+')' }"></div>
@@ -106,7 +106,7 @@ export default {
             lyricIndex: 0,//当前播放歌词的下标
             isMute: false,//是否静音
             volume,//音量大小
-            picUrl: `${defaultBG}`,
+            picUrl: `${require('../assets/img/player_cover.png')}`,
             playBg: 'http://cdn.mtnhao.com/music/bg.jpg'
         }
 
@@ -138,11 +138,19 @@ export default {
                 return;
             }
             if (newMusic.id && newMusic.image) {
+              // console.log(newMusic.image);
               this.$nextTick(() => {
                 let url = newMusic.image;
-                this.picUrl = url;
-                this.$refs.playBg.style.backgroundImage = `url(${url})`;
-                // console.log(this.picUrl);
+                if (typeof newMusic.image == 'object') {
+                  console.log(newMusic);
+                  newMusic.image.then(res => {
+                    url = res;
+                  })
+                }
+                setTimeout(() => {
+                  this.picUrl = url;
+                  this.$refs.playBg.style.backgroundImage = `url(${url})`
+                }, 500)
               })
             }
             this.audioEle.src = newMusic.url;
@@ -301,10 +309,10 @@ export default {
        * 修改音量大小
        */
       volumeChange(percent){
-        percent === 0 ? (this.isMute = true) : (this.isMute = false);
-        this.volume = percent;
-        this.audioEle.volume = percent;
-        setVolume(percent);
+        // percent === 0 ? (this.isMute = true) : (this.isMute = false);
+        // this.volume = percent;
+        // this.audioEle.volume = percent;
+        // setVolume(percent);
       },
       /**
        * 打开音乐评论
@@ -314,7 +322,11 @@ export default {
           console.log('没有播放音乐')
           return false;
         }
-        this.$router.pua=push(`/music/comment/${this.currentMusic.id}`)
+        let router = this.$route.path;
+        if (router.indexOf('/music/comment') != -1) {//判断要跳转的路由是否是当前路由
+          return;
+        }
+        this.$router.push(`/music/comment/${this.currentMusic.id}`)
       },
       /**
        * 切换播放顺序
@@ -397,7 +409,7 @@ export default {
         this.initKeyDown();
         this.volumeChange(this.volume);
       })      
-      console.log(this.$refs.musicBar, this.$refs.musicBarBtn)
+      // console.log(this.$refs.musicBar, this.$refs.musicBarBtn)
     },
     updated() {
         // console.log(this.currentMusic.id );

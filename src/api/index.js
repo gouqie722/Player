@@ -61,10 +61,19 @@ var api = {
             }
         })
     },
-    getSearchHot(){
-        return axios.get('/api/meituan/header/searchHotWords.json', {
+    // getSearchHot(){
+    //     return axios.get('/api/meituan/header/searchHotWords.json', {
+    //         params: {
+    //             appkey: 'yinshan_1559989301908'
+    //         }
+    //     })
+    // },
+    getMusicComment(id, page, limit = defaultLimit){
+        return axios.get('https://api.mtnhao.com/comment/music', {
             params: {
-                appkey: 'yinshan_1559989301908'
+                offset: page * limit,
+                limit: limit,
+                id
             }
         })
     }

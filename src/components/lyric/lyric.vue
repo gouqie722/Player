@@ -3,7 +3,7 @@
         <!-- 封面 -->
         <dl class="music-info">
             <dt>
-                <img :src="musicPicUrl" alt="">
+                <img :src="picUrl" alt="">
             </dt>
             <template v-if="currentMusic.id">
                 <dd>歌曲名：{{currentMusic.name}}</dd>
@@ -57,6 +57,10 @@ export default {
         lyricIndex: {
             type: Number,
             default: 0
+        },
+        picUrl: {
+            type: String,
+            default: ''
         }
     },
     computed: {

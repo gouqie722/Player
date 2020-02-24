@@ -88,6 +88,7 @@ export default {
          */
         handleScroll(vertical, horizontal, nativeEvent){
             if (this.lockUp && vertical.process > 0.95) {
+                this.lockUp = true;
                 this.$emit('pullUpLoad');
                 // vertical.process = 0.5;
                 // console.log();
@@ -133,8 +134,11 @@ export default {
         })
     },
     mounted() {
-        // console.log(this.height);
+
     },
+    // updated(){
+    //     console.log(this.list);
+    // }
 }
 </script>
 <style lang="less" scoped>
@@ -146,6 +150,7 @@ export default {
             width: 300px;
         }
         .list-album{
+                width: 200px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
@@ -220,7 +225,7 @@ export default {
                 }
             }
             .list-album{
-                // width: 300px;
+                width: 200px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
@@ -240,4 +245,25 @@ export default {
                 }
             }
         }
+    @media (max-width: 1200px){
+        .musicList{
+            .list-header.list-item{
+                .list-singer{
+                    width: 150px;
+                }
+                .list-album{
+                    width: 150px;
+                }
+            }
+            .list-content{
+                .list-album{
+                    width: 150px;
+                }
+                .list-singer{
+                    width: 150px;
+                }
+            }
+
+        }
+    }
 </style>

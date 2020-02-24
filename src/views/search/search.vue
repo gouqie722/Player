@@ -34,11 +34,15 @@ export default {
         }
     },
     watch: {
-        // list(newValue, oldList){
-        //     if (newValue.length !== oldList.length) {
-                
-        //     }
-        // }
+        list(newValue, oldList){
+            if (newValue.length !== oldList.length) {
+                this.lockUp = false;
+            } else if (
+                newList[newList.length - 1].id !== oldList[oldList.length - 1].id
+            ) {
+                this.lockUp = false
+            }
+        }
     },
     created() {
         api.searchHot().then((res) => {

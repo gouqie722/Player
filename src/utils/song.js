@@ -24,13 +24,15 @@ export function createPlayList(music){
         name: music.name,
         singer: music.artists.length > 0 && filterSinger(music.artists),
         album: music.album.name,
-        image: music.album.picUrl || null,
+        image: music.album.picUrl || `https://p1.music.126.net/DESxmcxT42-KrVQvi0dEMQ==/${music.album.picId}.jpg?param=300y300`,
         duration: music.duration / 1000,
         url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
     })
 }
 
 export function createTopList(music){
+
+
     return new Song({
         id: music.id,
         name: music.name,
