@@ -34,15 +34,15 @@ export default {
         }
     },
     watch: {
-        list(newValue, oldList){
-            if (newValue.length !== oldList.length) {
-                this.lockUp = false;
-            } else if (
-                newList[newList.length - 1].id !== oldList[oldList.length - 1].id
-            ) {
-                this.lockUp = false
-            }
-        }
+        // list(newValue, oldList){
+        //     if (newValue.length !== oldList.length) {
+        //         this.lockUp = false;
+        //     } else if (
+        //         newList[newList.length - 1].id !== oldList[oldList.length - 1].id
+        //     ) {
+        //         this.lockUp = false
+        //     }
+        // }
     },
     created() {
         api.searchHot().then((res) => {
@@ -76,6 +76,7 @@ export default {
             api.search(this.searchValue, this.page).then(res => {
                 if (res.status == 200) {
                     if (!res.data.result.songs) {
+                        this.lockUp = false;
                         console.log('没有更多歌曲了')
                         return null;
                     }

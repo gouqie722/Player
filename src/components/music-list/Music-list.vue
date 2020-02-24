@@ -46,7 +46,8 @@ export default {
                 bar: {
                     keepShow: true,
                     background: 'rgb(168, 172, 171)',
-                    minSize: 0.1
+                    minSize: 0.1,
+                    disable: false//是否禁用滚动条
                 },
                 rail: {
                     opacity: 0.3,
@@ -82,22 +83,34 @@ export default {
             default: 0
         }
     },
+    watch: {
+        list(newValue){
+            if (newValue) {
+                this.ops.bar.disable = false;
+            }
+        },
+        lockUp(newValue){
+            if (!newValue) {
+                this.ops.bar.disable = false;
+            }
+        }
+    },
     methods: {
         /**
          * 上拉加载事件
          */
         handleScroll(vertical, horizontal, nativeEvent){
             if (this.lockUp && vertical.process > 0.95) {
-                this.lockUp = true;
+                this.ops.bar.disable = true;
                 this.$emit('pullUpLoad');
+                console.log(vertical.scrollTop);
                 // vertical.process = 0.5;
                 // console.log();
-                this.$refs['vs'].scrollTo(
-                    {
-                        y: '70%'
-                    },
-                    500
-                )
+                // this.$refs['vs'].scrollTo(
+                //     {
+                //         y: vertical.scrollTop
+                //     },
+                // )
             }
         },
         height(){
