@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### API接口文档
+https://binaryify.github.io/NeteaseCloudMusicApi/#/
+
