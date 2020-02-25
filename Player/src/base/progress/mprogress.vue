@@ -165,14 +165,6 @@ export default {
                 top: 0;
                 z-index: 20;
             }
-            .buffered{
-                position: absolute;
-                width: 0px;
-                height: 2px;
-                background-color: #0f0;
-                left: 0;
-                top: 0;
-            }
             i {
                 position: absolute;
                 width: 6px;
