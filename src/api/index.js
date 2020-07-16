@@ -76,6 +76,13 @@ var api = {
                 id
             }
         })
+    },
+    getBuffer(){
+        return axios.get('/api/song/media/outer/url?id=536096151.mp3', {
+            
+            responseType: 'arraybuffer'
+            
+        })
     }
 }
 

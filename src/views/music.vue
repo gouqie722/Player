@@ -155,6 +155,7 @@ export default {
               })
             }
             this.audioEle.src = newMusic.url;
+
             // 重置相关参数
             this.lyricIndex = this.currentTime = this.currentProgress = 0;
             this.audioEle.play();
