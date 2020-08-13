@@ -3,15 +3,15 @@ import App from './App.vue';
 import router from './router';
 import store from './store/index.js';
 import 'reset-css';
-import vuescroll from 'vuescroll';
+import vueScroll from 'vuescroll';
 import Icon from './base/icon/icon.vue';
 // import { HappyScroll } from 'vue-happy-scroll'
 // import 'vue-happy-scroll/docs/happy-scroll.css';
 Vue.config.productionTip = false;
-Vue.use(vuescroll);
+Vue.use(vueScroll);
 // Vue.use(Icon);
 Vue.component('icon', Icon);
-Vue.component('vue-scroll', vuescroll);
+Vue.component('vue-scroll', vueScroll);
 //删除node_modules文件的命令    rimraf node_modules
 var vm = new Vue({
   router,
