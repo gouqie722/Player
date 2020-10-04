@@ -4,12 +4,8 @@ var api = {
     /**
      * 获取音乐列表
      */
-    getPlaylist(idx){
-        return axios.get('https://api.mtnhao.com/top/list', {
-            params: {
-                idx
-            }
-        });
+    getPlaylist(){
+        return axios.get('https://api.mtnhao.com/playlist/detail?id=3778678');
     },
     /**
      * 歌单详情

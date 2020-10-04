@@ -81,17 +81,18 @@ import MusicRight from '../components/musicContent/MusicRight.vue';
 import Lyric from '../components/lyric/lyric.vue';
 import MusicBar from '../components/musicBar/MusicBar.vue';
 import MProgress from '../base/progress/mprogress.vue';
+// import { defaultBG } from '../config';
 import volume from '../components/volume/volume.vue';
 import MusicBtn from '../components/music-btn/Music-btn.vue';
 import PlayMusic from './Player.js';
 export default {
     components: {
-        MusicRight,
-        MusicBar,
-        Lyric,
-        MProgress,
-        volume,
-        MusicBtn
+      MusicRight,
+      MusicBar,
+      Lyric,
+      MProgress,
+      volume,
+      MusicBtn
     },
     filters: {
       format
@@ -108,7 +109,7 @@ export default {
             isMute: false,//是否静音
             volume,//音量大小
             picUrl: `${require('../assets/img/player_cover.png')}`,
-            playBg: 'http://cdn.mtnhao.com/music/bg.jpg'
+            playBg: defaultBG
         }
 
     },

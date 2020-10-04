@@ -9,7 +9,6 @@
 <script>
 import MHeader from "./components/header/Header.vue";
 // import Dialog from "./components/login/Dialog.vue";
-import { defaultSheetId } from './config.js';
 import { createTopList } from './utils/song.js';
 import api from './api/index.js';
 import { mapMutations, mapActions } from 'vuex'
@@ -41,7 +40,7 @@ export default {
     ...mapActions(['setPlaylist'])
   },
   mounted() {
-    api.getPlaylist(defaultSheetId).then(res => {
+    api.getPlaylist().then(res => {
       if (res.status == 200) {
         let list = this._formatSongs(res.data.playlist.tracks.slice(0, 100));
         this.setPlaylist({ list });

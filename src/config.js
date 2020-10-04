@@ -4,8 +4,8 @@ export const defaultLimit = 30;//默认分页数量
 
 // 默认背景图
 const BG_ARR = [
-    'http://cdn.mtnhao.com/music/bg.jpg',
-    'http://cdn.mtnhao.com/music/bg-02.jpg'
+    'https://netease-music.fe-mm.com/img/bg-1.cf743e29.jpg',
+    'https://img95.699pic.com/photo/40008/1514.jpg_wh860.jpg'
   ]
 export const defaultBG = BG_ARR[Math.floor(Math.random() * BG_ARR.length)]
 
