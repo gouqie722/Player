@@ -22,3 +22,4 @@ var vm = new Vue({
 // var id = 1363948882;
 // `http://api.mtnhao.com/lyric?id=${id}`
 // `http://music.163.com/song/media/outer/url?id=${id}.mp3`
+// https://github.com/zce

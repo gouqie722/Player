@@ -5,25 +5,25 @@ var api = {
      * 获取音乐列表
      */
     getPlaylist(){
-        return axios.get('https://api.mtnhao.com/playlist/detail?id=3778678');
+        return axios.get('http://neteasecloudmusicapi.zhaoboy.com/playlist/detail?id=3778678');
     },
     /**
      * 歌单详情
      */
     getDetail(){
-        return axios.get('https://api.mtnhao.com/toplist/detail');
+        return axios.get('http://neteasecloudmusicapi.zhaoboy.com/toplist/detail');
     },
     /**
      * 推荐歌单
      */
     getTopList(){
-        return axios.get('https://api.mtnhao.com/personalized');
+        return axios.get('http://neteasecloudmusicapi.zhaoboy.com/personalized');
     },
     /**
      * topList 歌单详情
      */
     getPlaylistDetail(id){
-        return axios.get(`http://api.mtnhao.com/playlist/detail?id=${id}`);
+        return axios.get(`http://neteasecloudmusicapi.zhaoboy.com/playlist/detail?id=${id}`);
     },
     /**
      * 获取热门
